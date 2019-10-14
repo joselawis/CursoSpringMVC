@@ -10,7 +10,14 @@ import org.springframework.context.annotation.Bean;
 
 import com.everis.alicante.training.spring.mvc.domain.Persona;
 
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 @SpringBootApplication
+@EnableSwagger2
 public class CursoSpringMvcApplication {
 
 	public static void main(String[] args) {
@@ -18,9 +25,15 @@ public class CursoSpringMvcApplication {
 	}
 
 	@Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2).select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any()).build();
+    }
+	
+	@Bean
 	public List<Persona> listaPersonas() {
-		return new ArrayList<>(Arrays.asList(new Persona("1", "Persona 1", 20), 
-											new Persona("2", "Persona 2", 24)));
+		return new ArrayList<>(Arrays.asList(new Persona("1", "Persona 1", 20),
+				new Persona("2", "Persona 2", 25)));
 	}
-
 }

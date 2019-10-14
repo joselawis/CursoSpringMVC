@@ -19,29 +19,22 @@ public class FooController {
 		return "foo";
 	}
 	
-	/*@RequestMapping("/bar")
-	public ModelAndView bar() {
-		final ModelAndView mav = new ModelAndView("foo");
-		mav.addObject("bar", "texto en el modelo ${bar}");
-		return mav;
-	}*/
-	
-	/*@RequestMapping("/bar")
-	public String bar(@RequestParam(required=false) String name, Model model) {
-		final Optional<String> nameOpt = Optional.ofNullable(name);
-		model.addAttribute("bar", nameOpt.orElse("VACIDO") + " mediante RequestParam");
-		return "foo";
-	}*/
+//	@RequestMapping("/bar")
+//	public ModelAndView bar() {
+//		final ModelAndView mav = new ModelAndView("foo");
+//		mav.addObject("bar", "texto en el modelo ${bar}");
+//		return mav;
+//	}
 	
 	@RequestMapping("/bar")
-	public String bar(@RequestParam(required=false, defaultValue="VACIDO") String name, Model model) {
+	public String bar(@RequestParam(required = false, defaultValue = "VACIDO") String name, Model model) {
 		model.addAttribute("bar", name + " mediante RequestParam");
 		return "foo";
 	}
 	
 	@GetMapping("/bar/{name}")
 	public String barPath(@PathVariable String name, Model model) {
-		model.addAttribute("bar", name + " mediante Path");
+		model.addAttribute("bar", name + " mediante RequestParam");
 		return "foo";
 	}
 }

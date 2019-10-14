@@ -25,16 +25,15 @@ public class PersonasController {
 		return "personas/lista";
 	}
 	
-	@GetMapping("/nuevo")
+	@GetMapping("/nuevo") 
 	public String nuevo(Model model) {
 		model.addAttribute("persona", new Persona());
 		return "personas/nuevo";
 	}
 	
-	@PostMapping("/guardar")
+	@PostMapping("/guardar") 
 	public String guardar(@ModelAttribute Persona persona) {
 		listaPersonas.add(persona);
 		return "redirect:/personas";
 	}
-	
 }

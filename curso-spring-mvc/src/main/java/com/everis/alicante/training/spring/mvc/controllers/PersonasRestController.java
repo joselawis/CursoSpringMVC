@@ -24,56 +24,38 @@ public class PersonasRestController {
 	private PersonasService personasService;
 
 	@GetMapping
-	public ResponseEntity<List<Persona>> getAll() {
+	public ResponseEntity<List<Persona>> lista() {
+		return ResponseEntity.ok(personasService.getAll());
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Persona> persona(@PathVariable String id) {
+		final Persona persona = personasService.getById(id);
+		if(persona == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(persona);
+	}
+
+	
+	
+	@PostMapping
+	public ResponseEntity<List<Persona>> guardar(@RequestBody Persona persona) {
+		personasService.add(persona);
 		return ResponseEntity.ok(personasService.getAll());
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<Persona> get(@PathVariable String id){
-		final Persona resultado = personasService.get(id);
-		if(resultado==null) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(resultado);
-	}
-
-	@PostMapping
-	public ResponseEntity<List<Persona>> add(@RequestBody Persona persona) {
-		return ResponseEntity.ok(personasService.add(persona));
-	}
-
 	@DeleteMapping("/{id}")
-	public ResponseEntity<List<Persona>> remove(@PathVariable String id){
-		
-		if(listaPersonas.stream().filter(p-> p.getId().equals(id)).findAny().orElse(null)==null) {
-			return ResponseEntity.badRequest().header("error", "No existe la persona").build();
-		}
-		listaPersonas.removeIf(p -> p.getId().equals(id));
-		return ResponseEntity.ok(listaPersonas);
+	public ResponseEntity<List<Persona>> eliminar(@PathVariable String id) {
+		personasService.remove(id);
+		return ResponseEntity.ok(personasService.getAll());
 	}
-	
-	/*@PutMapping("/{id}")
-	public Persona update(@PathVariable String id, @RequestBody Persona persona) {
-		if(!id.equals(persona.getId())) {
-			throw new IllegalArgumentException("Los ids no coinciden");
-		}
-		return listaPersonas.stream().filter(p-> p.getId().equals(id)).peek(p-> {
-			p.setNombre(persona.getNombre());
-			p.setEdad(persona.getEdad());
-		}).findAny().orElse(null);
-	}*/
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Persona> update(@PathVariable String id, @RequestBody Persona persona) {
-		if(!id.equals(persona.getId())) {
-			return ResponseEntity.badRequest().header("error","Los ids no coinciden").build();
+	public ResponseEntity<Persona> modificar(@PathVariable String id, @RequestBody Persona persona) {
+		if( !id.equals(persona.getId())) {
+			return ResponseEntity.badRequest().header("error", "Los ids no coinciden").build();
 		}
-		final Persona resultado = listaPersonas.stream().filter(p-> p.getId().equals(id)).peek(p-> {
-			p.setNombre(persona.getNombre());
-			p.setEdad(persona.getEdad());
-		}).findAny().orElse(null);
-		
-		return ResponseEntity.ok(resultado);
+		return ResponseEntity.ok(personasService.modificar(id, persona));
 	}
-	
 }
