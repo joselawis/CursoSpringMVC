@@ -14,22 +14,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.everis.alicante.training.spring.mvc.domain.Persona;
+import com.everis.alicante.training.spring.mvc.services.PersonasService;
 
 @RestController
 @RequestMapping("/api/personas")
 public class PersonasRestController {
 
 	@Autowired
-	private List<Persona> listaPersonas;
+	private PersonasService personasService;
 
 	@GetMapping
-	public ResponseEntity<List<Persona>> lista() {
-		return ResponseEntity.ok(listaPersonas);
+	public ResponseEntity<List<Persona>> getAll() {
+		return ResponseEntity.ok(personasService.getAll());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Persona> getById(@PathVariable String id){
-		final Persona resultado = listaPersonas.stream().filter(p-> p.getId().equals(id)).findAny().orElse(null);
+	public ResponseEntity<Persona> get(@PathVariable String id){
+		final Persona resultado = personasService.get(id);
 		if(resultado==null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -37,13 +38,13 @@ public class PersonasRestController {
 	}
 
 	@PostMapping
-	public ResponseEntity<List<Persona>> guardar(@RequestBody Persona persona) {
-		listaPersonas.add(persona);
-		return ResponseEntity.ok(listaPersonas);
+	public ResponseEntity<List<Persona>> add(@RequestBody Persona persona) {
+		return ResponseEntity.ok(personasService.add(persona));
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<List<Persona>> delete(@PathVariable String id){
+	public ResponseEntity<List<Persona>> remove(@PathVariable String id){
+		
 		if(listaPersonas.stream().filter(p-> p.getId().equals(id)).findAny().orElse(null)==null) {
 			return ResponseEntity.badRequest().header("error", "No existe la persona").build();
 		}
@@ -52,7 +53,7 @@ public class PersonasRestController {
 	}
 	
 	/*@PutMapping("/{id}")
-	public Persona modificar(@PathVariable String id, @RequestBody Persona persona) {
+	public Persona update(@PathVariable String id, @RequestBody Persona persona) {
 		if(!id.equals(persona.getId())) {
 			throw new IllegalArgumentException("Los ids no coinciden");
 		}
@@ -63,7 +64,7 @@ public class PersonasRestController {
 	}*/
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Persona> modificar(@PathVariable String id, @RequestBody Persona persona) {
+	public ResponseEntity<Persona> update(@PathVariable String id, @RequestBody Persona persona) {
 		if(!id.equals(persona.getId())) {
 			return ResponseEntity.badRequest().header("error","Los ids no coinciden").build();
 		}
