@@ -9,9 +9,13 @@ import com.everis.alicante.training.spring.mvc.domain.Persona;
 
 @Service
 public class PersonasService {
-	@Autowired
+	
 	private List<Persona> listaPersonas;
 	
+	public PersonasService(List<Persona> listaPersonas) {
+		this.listaPersonas = listaPersonas;
+	}
+
 	public List<Persona> getAll() {
 		return listaPersonas;
 	}
