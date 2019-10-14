@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>everis Alicante: Hola Mundo!</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Lista Personas!</h1>
+	<div th:each="persona : ${personas}">
+		<h3 th:text="${persona.nombre}"></h3>
+		<h4 th:text="${persona.edad}"></h4>
+	</div>
+</body>
+</html>
