@@ -23,25 +23,32 @@ public class PersonasRestController {
 	private List<Persona> listaPersonas;
 
 	@GetMapping
-	public List<Persona> lista() {
-		return listaPersonas;
+	public ResponseEntity<List<Persona>> lista() {
+		return ResponseEntity.ok(listaPersonas);
 	}
 	
 	@GetMapping("/{id}")
-	public Persona getById(@PathVariable String id){
-		return (Persona) listaPersonas.stream().filter(p-> p.getId().equals(id)).findAny().orElse(null);
+	public ResponseEntity<Persona> getById(@PathVariable String id){
+		final Persona resultado = listaPersonas.stream().filter(p-> p.getId().equals(id)).findAny().orElse(null);
+		if(resultado==null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(resultado);
 	}
 
 	@PostMapping
-	public List<Persona> guardar(@RequestBody Persona persona) {
+	public ResponseEntity<List<Persona>> guardar(@RequestBody Persona persona) {
 		listaPersonas.add(persona);
-		return listaPersonas;
+		return ResponseEntity.ok(listaPersonas);
 	}
 
 	@DeleteMapping("/{id}")
-	public List<Persona> delete(@PathVariable String id){
+	public ResponseEntity<List<Persona>> delete(@PathVariable String id){
+		if(listaPersonas.stream().filter(p-> p.getId().equals(id)).findAny().orElse(null)==null) {
+			return ResponseEntity.badRequest().header("error", "No existe la persona").build();
+		}
 		listaPersonas.removeIf(p -> p.getId().equals(id));
-		return listaPersonas;
+		return ResponseEntity.ok(listaPersonas);
 	}
 	
 	/*@PutMapping("/{id}")
