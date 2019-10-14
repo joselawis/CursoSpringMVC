@@ -25,15 +25,14 @@ public class CursoSpringMvcApplication {
 	}
 
 	@Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2).select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/api/*")).build();
-    }
-	
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2).select()
+				.apis(RequestHandlerSelectors.basePackage("com.everis.alicante.training.spring.mvc"))
+				.paths(PathSelectors.ant("/api/**")).build();
+	}
+
 	@Bean
 	public List<Persona> listaPersonas() {
-		return new ArrayList<>(Arrays.asList(new Persona("1", "Persona 1", 20),
-				new Persona("2", "Persona 2", 25)));
+		return new ArrayList<>(Arrays.asList(new Persona("1", "Persona 1", 20), new Persona("2", "Persona 2", 25)));
 	}
 }

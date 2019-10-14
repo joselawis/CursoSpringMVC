@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.everis.alicante.training.spring.mvc.domain.Persona;
 import com.everis.alicante.training.spring.mvc.services.PersonasService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("/api/personas")
+@Api(value="Personas API REST")
 public class PersonasRestController {
 
 	@Autowired

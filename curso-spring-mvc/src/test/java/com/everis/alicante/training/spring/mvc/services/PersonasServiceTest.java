@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.everis.alicante.training.spring.mvc.domain.Persona;
@@ -16,21 +17,22 @@ import com.everis.alicante.training.spring.mvc.domain.Persona;
 public class PersonasServiceTest {
 
 	@InjectMocks
-	private PersonasService personasService;
+	private PersonasServiceImpl personasService;
 	
 	@Mock
-	private List<Persona> listaPersonas = Arrays.asList(new  Persona("1", "Persona 1", 20));
+	private PersonasRepository repository;
 	
 	@Test
 	public void test() {
 		// Arrange
 		List<Persona> personas = null;
+		Mockito.when(repository.getAll()).thenReturn(Arrays.asList(new Persona()));
 		
 		// Act
 		personas = personasService.getAll();
 		
 		// Assert
-		//Assert.assertNotNull("La lista de personas no puede ser nula", personas);
+		Assert.assertNotNull("La lista de personas no puede ser nula", personas);
 		Assert.assertEquals("Longitud de la lista no esperada", 1, personas.size());
 	}
 }

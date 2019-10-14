@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.everis.alicante.training.spring.mvc.domain.Persona;
 
-public interface PersonasService {
+public interface PersonasRepository {
 
 	List<Persona> getAll();
 
