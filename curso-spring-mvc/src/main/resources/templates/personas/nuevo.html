@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>everis Alicante: Hola Mundo!</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Nueva Persona!</h1>
+	<form th:action="@{/personas/guardar}" th:object="${persona}" method="post">
+		Nombre: <input type="text" th:field="*{nombre}"><br>
+		Edad: <input type="number" th:field="*{edad}"><br>
+		<button type="submit">Guardar</button>
+	</form>
+</body>
+</html>
